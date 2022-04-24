@@ -61,6 +61,18 @@ let score = 0;
 // initializing time
 let time = 10;
 
+// difficulty
+let difficulty =
+  localStorage.getItem("difficulty") !== null
+    ? localStorage.getItem("difficulty")
+    : "medium";
+
+// Set difficulty selcet value
+difficultySelect.value =
+  localStorage.getItem("difficulty") !== null
+    ? localStorage.getItem("difficulty")
+    : "medium";
+
 // focus text input at start
 text.focus();
 
@@ -122,6 +134,26 @@ text.addEventListener("input", (event) => {
     event.target.value = "";
 
     // increment the time after correct input
-    time += 5;
+    //time += 5;
+
+    if (difficulty === "hard") {
+      time += 2;
+    } else if (difficulty === "medium") {
+      time += 3;
+    } else {
+      time += 5;
+    }
+
+    updateTime();
   }
+});
+
+// SETTINGS BTN CLICK
+settingsBtn.addEventListener("click", () => settings.classList.toggle("hide"));
+
+// SETTINGS SELECT
+settingsForm.addEventListener("change", (event) => {
+  difficulty = event.target.value;
+
+  localStorage.setItem("difficulty", difficulty);
 });

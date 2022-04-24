@@ -61,33 +61,67 @@ let score = 0;
 // initializing time
 let time = 10;
 
+// focus text input at start
+text.focus();
+
+// COUNTING DOWN
+const timeInterval = setInterval(updateTime, 1000);
+
+// RANDOM WORD
 function getRandomWord() {
   return words[Math.floor(Math.random() * words.length)];
   // floor will just round down
   // function to get a random word from our words array
 }
 
+// ADD WORD TO DOM
 function addWordToDOM() {
   randomWord = getRandomWord();
   word.innerHTML = randomWord;
 }
 
+// UPDATE SCORE
 function updateScore() {
   score++;
   scoreEl.innerHTML = score;
+}
+
+// UPDATE TIME
+function updateTime() {
+  //console.log(1);
+  time--;
+
+  timeEl.innerHTML = time + "s";
+
+  if (time === 0) {
+    clearInterval(timeInterval);
+
+    gameOver();
+  }
+}
+
+// GAME OVER
+function gameOver() {
+  endgameEl.innerHTML = `<h1>Time ran out!</h1> <p>Your final score is ${score}</p> <button onClick="location.reload()">Reload</button>`;
+
+  endgameEl.style.display = "flex";
 }
 
 addWordToDOM();
 
 text.addEventListener("input", (event) => {
   const insertedText = event.target.value;
-  console.log(insertedText);
+  //console.log(insertedText);
 
   if (insertedText === randomWord) {
     addWordToDOM();
 
     updateScore();
 
+    // clear input field
     event.target.value = "";
+
+    // increment the time after correct input
+    time += 5;
   }
 });
